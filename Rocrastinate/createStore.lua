@@ -110,7 +110,7 @@ local function createStore(reducer, initialState)
 		end
 	end
 	
-	function store.subscribe(...) -- to pewdiepie
+	function store.subscribe(...)
 		local strKeypath, callback = voidSelf(store, ...)
 		
 		local observers = store_observers[strKeypath]

@@ -1,5 +1,3 @@
--- danananana inspector middleware https://youtu.be/e-JHfXVlkik?t=9
-
 local function keyToStr(key)
 	if type(key) == "string" then
 		return key

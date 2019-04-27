@@ -1,8 +1,8 @@
 # 1.2 Rocrastinate Store
 
-Previous tutorial: [1.1 Introduction](1-1-introduction.md)
-
 Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
+
+Previous tutorial: [1.1 Introduction](1-1-introduction.md)
 
 ## Redux Similarities and Differences
 
@@ -221,6 +221,6 @@ In the next tutorial, we'll learn how to propogate changes in the Rocrastinate s
 
 ---
 
-Previous tutorial: [1.1 Introduction](1-1-introduction.md)
-
 Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
+
+Previous tutorial: [1.1 Introduction](1-1-introduction.md)

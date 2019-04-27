@@ -1,4 +1,5 @@
 local FastSpawn = require(script.Parent.Util.FastSpawn)
+local ParseKeypath = require(script.Parent.Util.ParseKeypath)
 local DeepCopyTable = require(script.Parent.Util.DeepCopyTable)
 
 local function voidSelf(self, ...)
@@ -62,7 +63,7 @@ local function createStore(reducer, initialState)
 		
 		-- Mark each keypath that was visited
 		local visitedPaths = {}
-		local visitedPathValues = {}
+		local visitedPathValues = {''}
 		local lastVisitedPath = nil
 		for i = 1, #keypath do
 			local key = keypath[i]
@@ -87,12 +88,16 @@ local function createStore(reducer, initialState)
 			visitedPathValues[#visitedPathValues + 1] = base
 		end
 		
-		local lastKey = keypath[#keypath]
-		if typeof(base) ~= "table" then
-			error("Attempt to set non-table key")
+		if #keypath == 0 then
+			store_state = value
+		else
+			local lastKey = keypath[#keypath]
+			if typeof(base) ~= "table" then
+				error("Attempt to set non-table key")
+			end
+			base[lastKey] = value
+			visitedPathValues[#visitedPathValues + 1] = value
 		end
-		base[lastKey] = value
-		visitedPathValues[#visitedPathValues + 1] = value
 		
 		-- Call subscribed listeners
 		for i = 1, #visitedPaths do

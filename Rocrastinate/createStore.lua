@@ -1,5 +1,4 @@
 local FastSpawn = require(script.Parent.Util.FastSpawn)
-local ParseKeypath = require(script.Parent.Util.ParseKeypath)
 local DeepCopyTable = require(script.Parent.Util.DeepCopyTable)
 
 local function voidSelf(self, ...)

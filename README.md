@@ -3,5 +3,7 @@
 # Rocrastinate
 A React/Redux-like UI state management and view library optimized for Roblox game development
 
+Rocrastinate provides UI state management solutions similar to Rodux, and semi-declarative UI similar to Roact. It works with, not against, roblox's features by allowing the use of UI templates, and it optimizes for Roblox development by mutating state and "procrastinating" component updates until the very moment they need to be displayed to the user (i.e. RenderStep or Heartbeat).
+
 # Usage
 See: [Introduction](docs/1-1-introduction.md)

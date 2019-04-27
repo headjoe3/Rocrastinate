@@ -343,4 +343,6 @@ end
 ```
 ![example](introduction_coins_example4.gif)
 
+---
+
 Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)

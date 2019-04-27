@@ -2,7 +2,7 @@
 
 Previous tutorial: [1.1 Introduction](1-1-introduction.md)
 
-Next tutorial: [1.3 Types of Components](1-3-types-of-components.md)
+Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
 ## Redux Similarities and Differences
 
@@ -217,8 +217,10 @@ coinsStore.dispatch(addCoins(10))
 print(coinsStore.getState()) -- 20
 ```
 
+In the next tutorial, we'll learn how to propogate changes in the Rocrastinate store to queue a redraw in our components, as well as how to display data pulled directly from the store.
 
+---
 
 Previous tutorial: [1.1 Introduction](1-1-introduction.md)
 
-Next tutorial: [1.3 Types of Components](1-3-types-of-components.md)
+Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)

@@ -20,3 +20,7 @@ You can get the model [here](https://www.roblox.com/library/3120304060/Rocrastin
     * [1.6 Usage Examples](1-6-usage-examples.md)
 2. Advanced Concepts
     * [2.1 Middlewares](docs/2-1-middlewares.md)
+    
+# Discord
+Come say hi!
+https://discord.gg/b3WMsk4

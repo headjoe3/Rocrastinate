@@ -4,7 +4,7 @@ Next tutorial: [1.5 Maid Revisited](1-5-maid-revisited.md)
 
 Previous tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)
 
 ## Component Re-usability
 
@@ -147,4 +147,4 @@ Next tutorial: [1.5 Maid Revisited](1-5-maid-revisited.md)
 
 Previous tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)

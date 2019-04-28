@@ -1,3 +1,3 @@
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)
 
 Coming soon

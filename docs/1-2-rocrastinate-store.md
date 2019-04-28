@@ -4,7 +4,7 @@ Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
 Previous tutorial: [1.1 Introduction](1-1-introduction.md)
 
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)
 
 ## Redux Similarities and Differences
 
@@ -227,4 +227,4 @@ Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
 Previous tutorial: [1.1 Introduction](1-1-introduction.md)
 
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)

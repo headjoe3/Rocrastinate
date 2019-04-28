@@ -3,7 +3,7 @@
 
 Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)
 
 ## Motivation
 
@@ -356,4 +356,4 @@ end
 
 Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
-[Directory](../readme.md#tutorial)
+[Directory](../README.md#tutorial)

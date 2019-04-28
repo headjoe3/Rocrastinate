@@ -93,7 +93,7 @@ Decorator components generally do not have access to state, although container d
 
 ## Props
 
-Often times, you will want to pass extra properties onto a component when it is constructed. A good example of this would be callbacks: A 'Draggable' decorator may optionally let you provide a function that gets called whenever the element is dragged.
+Often times, we will want to pass extra properties onto a component when it is constructed. A good example of this would be callbacks: A 'Draggable' decorator may optionally let us provide a function that gets called whenever the element is dragged.
 
 ```lua
 Draggable.new(myLabel, { onDrag = function(dx, dy) print("Moved label by", dx, dy) end })
@@ -101,7 +101,7 @@ Draggable.new(myLabel, { onDrag = function(dx, dy) print("Moved label by", dx, d
 
 This second argument is the "props" argument, which is a table of extra properties given to the "Draggable" component.
 
-It may be helpful to introduce some element of [type safety](https://en.wikipedia.org/wiki/Type_safety) into your props in order to make it very clear what your component does and does not accept as an argument. A good library for dynamic type safety is Osyris's [t library](https://github.com/osyrisrblx/t).
+It may be helpful to introduce some element of [type safety](https://en.wikipedia.org/wiki/Type_safety) into our props in order to make it very clear what our component does and does not accept as an argument. A good library for dynamic type safety is Osyris's [t library](https://github.com/osyrisrblx/t).
 
 ```lua
 local t = require(game.ReplicatedStorage.t)
@@ -114,7 +114,7 @@ function Draggable:constructor(wrapped, props)
     . . .
 end
 ```
-[Roblox-ts](roblox-ts.github.io) also provides static type safety in this scenario; however, this assumes you want your entire codebase to be written in TypeScript
+[Roblox-ts](roblox-ts.github.io) also provides static type safety in this scenario; however, this assumes your entire codebase is already written in TypeScript.
 
 It should be noted that "props" in this case means something different from "props" in Roact/React. "props" are properties defined upon constructing Components, but these values can also be changed using Getter/Setter methods if defined.  In React terms, 'props' and 'state' are conflated here.
 
@@ -139,7 +139,7 @@ function MyComponent:constructor(parent, [props])
 function MyDecorator:constructor(wrapped, [props])
 ```
 
-In the next tutorial, we'll revisit the Maid concept that was mentioned in a previous tutorial, but not explained in depth
+In the next tutorial, we'll revisit the Maid concept that was mentioned in a previous tutorial, but not explained in complete depth
 
 ---
 

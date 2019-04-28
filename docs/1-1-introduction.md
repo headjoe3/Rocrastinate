@@ -7,9 +7,9 @@ Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
 ## Motivation
 
-[TL;DR: This is just background; click here to dive into using Rocrastinate](#creating-your-first-component)
+[TL;DR: This is background; click here to dive straight into using Rocrastinate](#creating-your-first-component)
 
-Roblox UI is not always easy to standardize. Making UI code that is simultaneously re-usable, decoupled, and well-performing on Roblox is ideal, but having all of these things at the same time can be challenging.
+Roblox UI is not always easy to standardize. Making UI code that is simultaneously re-usable, decoupled, and high-performing on Roblox is ideal, but having all of three these things at the same time can be prove challenging.
 
 Frameworks such as [Roact](https://github.com/Roblox/roact) by LPGhatguy (generally accompanied with [Rodux](https://github.com/Roblox/rodux)) have been created to parallel Facebook's [React](https://github.com/facebook/react) framework (generally accompanied with [Redux](https://redux.js.org/)).
 
@@ -18,7 +18,7 @@ These frameworks offer a declarative approach to UI by instantly rendering accur
 While these frameworks do their job well, Roact/Rodux has some particular disadvantages in the context of Roblox development:
 - Roact abstracts away important UI features, such as Tweening, or reading properties from rendered objects. This can get pretty hairy try doing certain simple things that are otherwise simple to do without Roact.
 - Roact does not allow you to design UI templates; all UI must be created by script. While I wrote a script to somewhat [automate this](https://pastebin.com/jW4k4Ze7) for roblox-ts, if you have non-programmer UI designers on your team, this barrier can become overly complex to deal with.
-- Rodux reconstructs the entire store for every action that is dispatched. Lua tables are significantly slower to deal with than JavaScript objects.
+- Rodux reconstructs the entire store model for every action that is dispatched. Lua tables are significantly slower to deal with than JavaScript objects.
 - Roact requires you to declaratively re-state every single property on every single rendered GUI object every time a component is updated. This can have negative performance implications, especially on UI that updates many times per frame.
 - Roact creates and destroys instances rapidly. There is no room for optimizations such as object pooling, which should otherwise be simple to implement outside of Roact.
 - Unless paired with [roblox-ts](https://roblox-ts.github.io/), the syntax for declaring Roact components can be rather verbose, whereas facebook's React uses JSX (an HTML-like syntax that makes things a lot more readable)
@@ -27,7 +27,7 @@ While these frameworks do their job well, Roact/Rodux has some particular disadv
 # Features of Rocrastinate
 Rocrastinate offers similar benifits to Roact and Rodux, while still giving the developer a large amount of control over when and how UI is redrawn.
 
-One of the main optimizations of Rocrastinate is that UI Components are only ever updated once per frame at most. This allows complex display updates to be deferred whenever a portion of your application's state changes, as each component will only be re-drawn as much as it needs to be redrawn.
+The main optimization of Rocrastinate, and its namesake, is that UI Component updates are "procrastinated" (i.e. only ever updated once per frame at most). This allows complex display updates to be deferred whenever a portion of your application's state changes, as each component will only be re-drawn as little as it needs to be redrawn.
 
 ## Creating your first Component
 
@@ -40,9 +40,9 @@ and destroyed using
 myComponentObject:Destroy()
 ```
 
-If you are unfamiliar with object oriented programming in lua, I would highly recommend reading this tutorial:
+If you are unfamiliar with object oriented programming in lua, I would highly recommend reading [this tutorial](https://devforum.roblox.com/t/all-about-object-oriented-programming/8585)
 
-To make a Component class, you can use the following API
+To declare our first Component class, Rocrastinate provides the following API
 ```lua
 local Rocrastinate = require(location.of.Rocrastinate)
 local MyComponent = Rocrastinate.Component:extend()
@@ -63,17 +63,20 @@ end
 
 local myPrinter = Printer.new("Hello, World!")
 myPrinter:Print() -- Hello, World!
+myPrinter:Destroy() -- ( Currently has no effect, but is still a thing we can do )
 ```
+
+While this has nothing to do with UI, it is a good example of the object-oriented structure we will be using for the rest of the tutorial
 
 ### UI components
 
-Rocrastinate gives you total control over what a component does when it is constructed. You can create as many Gui objects as you like, and update them however you like.
+Rocrastinate gives total control over what a component does when it is constructed. You can create as many Gui objects as you like, and update them however you like.
 
-The information you actually display to the user can be controlled using the Component class' `:Redraw()` method. **You should not call :Redraw() directly**, as this is automatically called on RunService.RenderStep or RunService.Heartbeat depending how your Component class is set up.
+The information we actually display to the user can be controlled using the Component class' `:Redraw()` method. **You should not call :Redraw() directly**, as this is automatically called on RunService.RenderStep or RunService.Heartbeat depending how our Component class is set up.
 
 To queue a redraw on the next frame, use `self.queueRedraw()` instead. This is an anonymous, idempotent function that tells Rocrastinate to call `:Redraw()` automatically on the next RenderStep or Heartbeat. It should be noted that when a component is constructed, Rocrastinate automatically calls `self.queueRedraw()` once.
 
-You can control whether `:Redraw()` is called on RenderStep or Heartbeat using the `RedrawBinding` variable.
+We can control whether `:Redraw()` is called on RenderStep or Heartbeat using the static `RedrawBinding` property of components.
 
 Let's say we wanted to create a 'CoinsDisplay' component, which draws some representation of how many coins a player has.
 ```lua
@@ -156,7 +159,7 @@ function MyApp:Destroy() -- Note: Do not do this
     self.myFrame:Destroy()
 end
 ```
-Seems like a lot of work, right? Now, if you want to add or remove elements from your UI Component, you have to also add or remove it from the Destructor. If you forget to do this, bad things can happen. Furthermore, what if components/Gui Objects are created during `MyApp:Redraw()` rather than `MyComponent:constructor()`? Now you have to use an if statement to conditionally check if the property exists, and if it does, destroy it in the destructor.
+Seems like a lot of work, right? Now, if you want to add or remove elements from your UI Component, you have to also add or remove it from the Destructor. If you forget to do this, bad things can happen. Furthermore, what if components/Gui Objects are created during `MyApp:Redraw()` rather than `MyComponent:constructor()`? Now you have to use an if statement to conditionally check if the object even exists, and if it does, destroy it in the destructor.
 
 Rocrastinate utilizes the Maid pattern for Component destructors. The Maid pattern is a helper class for creating destructors, and has been used in many roblox projects but is rarely explained. Every Component is given a `maid` object. Finally, Rocrastinate will actually throw an error if you try to redefine `Component.new()` or `Component.Destroy()` on a Component class.
 
@@ -185,24 +188,24 @@ Here's the internal Rocrastinate code for handling maid tasks. Strings are inter
 
 ```lua
 local function taskDestructor(task)
-	local taskType = typeof(task)
-	if taskType == "function" then
-		-- Callbacks
-		FastSpawn(task)
-	elseif taskType == "RBXScriptConnection" then
-		-- Connections
-		task:Disconnect()
-	elseif taskType == "string" then
-		-- Render step bindings
-		pcall(function()
-			game:GetService("RunService"):UnbindFromRenderStep(task)
-		end)
-	elseif taskType == "Instance" or (taskType == "table" and task.Destroy) then
-		-- Instances and custom objects with a :Destroy() method
-		task:Destroy()
-	else
-		warn("Unhandled maid task '" .. tostring(task) .. "' of type '" .. taskType .. "'", debug.traceback())
-	end
+    local taskType = typeof(task)
+    if taskType == "function" then
+        -- Callbacks
+        FastSpawn(task)
+    elseif taskType == "RBXScriptConnection" then
+        -- Connections
+        task:Disconnect()
+    elseif taskType == "string" then
+        -- Render step bindings
+        pcall(function()
+            game:GetService("RunService"):UnbindFromRenderStep(task)
+        end)
+    elseif taskType == "Instance" or (taskType == "table" and task.Destroy) then
+        -- Instances and custom objects with a :Destroy() method
+        task:Destroy()
+    else
+        warn("Unhandled maid task '" .. tostring(task) .. "' of type '" .. taskType .. "'", debug.traceback())
+    end
 end
 ```
 
@@ -259,7 +262,7 @@ function CoinsDisplay:Redraw()
 end
 ```
 
-We can simplify this even further; `maid:GiveTask()` conveniently returns the arguments you pass to it. This means that you can create the gui and add it as a maid task on the same line, making it easier to track that this object needs to be destroyed with the component:
+We can simplify this even further; `maid:GiveTask()` conveniently returns the arguments we pass to it. This means that we can create the gui and add it as a maid task on the same line, making it easier to track that this object needs to be destroyed with the component:
 
 ```lua
 self.gui = self.maid:GiveTask(Instance.new("ScreenGui"))
@@ -304,7 +307,7 @@ while wait(1) do
 end
 ```
 
-There is one other thing that will make the code simpler: UI Templates. Because Rocrastinate gives you full control over how your GUI elements are created, you can place a template inside of your component's module:
+There is one other thing that will make the code simpler: UI Templates. Because Rocrastinate gives us full control over how our GUI elements are created, we can place a template inside of our component's module:
 
 ![example](introduction_coins_example3.png)
 
@@ -317,16 +320,16 @@ local CoinsDisplay = Rocrastinate.Component:extend()
 
 function CoinsDisplay:constructor(parent)
     self.coins = 0
-	self.parent = parent
+    self.parent = parent
 end
 
 CoinsDisplay.RedrawBinding = "Heartbeat"
 function CoinsDisplay:Redraw()
-	if not self.gui then
-		self.gui = self.maid:GiveTask(script.CoinsDisplayTemplate:Clone())
-		self.gui.Parent = self.parent
-	end
-	
+    if not self.gui then
+        self.gui = self.maid:GiveTask(script.CoinsDisplayTemplate:Clone())
+        self.gui.Parent = self.parent
+    end
+    
     self.gui.CoinsLabel.Text = "Coins: " .. self.coins
 end
 

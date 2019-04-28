@@ -14,15 +14,14 @@ As we saw in the last tutorial, reducers are given a special function `set()`, w
 
 Technically, for the root reducer, the actual function `get()` passed to the reducer is `store.getState()`, and the actual function `set()` is `store.setState()`.
 
-What `store.getState(...keypath)` is parse a provided series of string keys until a value is found in the store. If a key does not exist at a given path, the store will return `nil`. For the sake of mutation safety, the store will NOT directly return a table if it is encountered using `store.getState(...)`; instead, the table will be cloned first, and then returned.
+What `store.getState(...keypath)` does is parse a provided series of string keys until a value is found in the store. If a key does not exist at a given path, the store will return `nil`. For the sake of mutation safety, the store will NOT directly return tables in the store when calling `store.getState(...)`; instead, tables will be deeply cloned, then returned.
 
-If you want a table in the store to be directly mutable when it is retrieved using `get()`, you can create a pointer to it by wrapping it in a function:
+If you want to keep a table in the store that is directly mutable when it is retrieved using `get()`, you can create a pointer to it by wrapping it in a function:
 
 ```lua
-local function createPointer(...)
-    local args = { ... }
+local function createPointer(value)
     return function()
-        return unpack(args)
+        return value
     end
 end
 local myTable = {}
@@ -34,9 +33,9 @@ local ptr_myTable = store.getState("myTable")
 print(myTable == ptr_myTable()) -- true
 ```
 
-In addition to `get()` doing more that directly returning the value in the store, the function `set()` also does more than directly mutating the value in the store. It also keeps track of each key that was changed, and notifies any observers of the change.
+Whereas `get()` doing more than directly returning the value in the store, the function `set()` also does more than just mutating the value in the store. When `store.setState()` is called, it keeps track of each key that was changed, and notifies any observers of the change.
 
-You can observe store changes using the `store.subscribe('path.to.key', callback)` function. Unlike `getState` and `setState`, the key path is denoted using the dot notation. subscribing to the empty string `''` will observe all store changes.
+We can observe store changes using the `store.subscribe('path.to.key', callback)` function. Unlike `getState` and `setState`, the key path is denoted using the dot notation. Subscribing to the empty string `''` will observe all store changes.
 
 Example:
 ```lua
@@ -53,21 +52,21 @@ store.setState('playerStats', 'coins', 20) -- ( No output )
 
 ## Observing with Components
 
-Your Components can listen to changes in a store and automatically queue updates when a value in the store has changed. In order to do this, some preconditions need to be set:
+Our Components can listen to changes in a store and automatically queue updates when a value in the store has changed. In order to do this, some preconditions need to be set:
 1. The component needs to know what store to observe changes from
 2. The component needs to know what key paths to subscribe to, and how to display them.
 
 The first precondition is simple: We can simply pass the store in as an argument in the Component's constructor. **In fact, Rocrastinate Components must receive a store as the first argument in their constructor in order to observe changes from that store**.
 
-While passing the same first argument through every single component down the tree of components may seem verbose, this actually makes it easy to differentiate "Container Components" (which are generally coupled with your particular segment of the application) from "Presentational Components" (which can generally be re-used throughout the application). More on that in a later tutorial.
+While passing the same first argument through every single component down the tree of components may seem verbose, this actually makes it easy to differentiate "Container Components" (which are generally coupled with a particular segment of the application) from "Presentational Components" (which can generally be re-used throughout the application). More on that in a later tutorial.
 
-Let's add the store to our CoinsDisplay's constructor from a previous tutorial:
+Let's add the store to the constructor of the CoinsDisplay component we created earlier:
 ```lua
 function CoinsDisplay:constructor(store, parent)
     self.parent = parent
     self.store = store
 
-    self.coins = 0
+    . . .
 end
 ```
 In this instance, we set `self.store = store` so that we can keep track of the store in case we need to give it to a nested component in our redraw function (similar to how we keep track of `parent` in order to know where we should inevitably place the copy of our component's template).
@@ -79,7 +78,7 @@ CoinsDisplay.Reduction = {
     coins = 'store.path.to.coins'
 }
 ```
-This will automatically subscribe new CoinsDisplay components to the keypath `'store.path.to.coins'`, and map it to the value `'coins'`. The reduced state will then be passed in as a table, as the first argument to `CoinsDisplay:Redraw()`
+This will automatically subscribe new CoinsDisplay components from the keypath on the right-hand side (`'store.path.to.coins'`), and map it to the value on the left-hand side (`'coins'`). The reduced state will then be passed in as a table, as the first argument to `CoinsDisplay:Redraw()`
 
 ```lua
 CoinsDisplay.Reduction = {
@@ -93,13 +92,13 @@ function CoinsDisplay:Redraw(reducedState)
         self.gui.Parent = self.parent
     end
     
-    -- Now we are displaying from reducedState.coins instead of self.coins.
-    -- In fact, we can get rid of self.coins, now that our data is coming from the store.
+    -- Now we can display from reducedState.coins instead of self.coins.
+    -- In fact, we can get rid of self.coins now that all our data is coming from the store.
     self.gui.CoinsLabel.Text = "Coins: " .. reducedState.coins
 end
 ```
 
-We can get rid of `self.coins` now that the data is being pulled from our store. In fact, we can also get rid of the `CoinsDisplay:AddCoin()` method we defined earlier, and replace it with actions such as `ADD_COINS` from the last tutorial. Putting it all together:
+We can now get rid of the `self.coins` property initialized in the constructor. In fact, we can also get rid of the `CoinsDisplay:AddCoin()` method we defined earlier, and replace it with actions such as `ADD_COINS` that we created in the last tutorial. Putting it all together:
 
 ## Final Code
 
@@ -166,9 +165,9 @@ while wait(1) do
 end
 ```
 
-This should functoin the same as before, but this time our coins are pulling directly from the store, and listening to action dispatches. We also don't need to store our `CoinsDisplay` instance as a variable in this case, as we don't need it in order to dispatch updates to the store.
+This should function exactly the same as before, but this time our coins are pulling directly from the store, and listening to action dispatches. We also don't need to store our `CoinsDisplay` instance as a variable in this case, nor do we need to directly tell the CoinsDisplay component to increment the state of 'coins'.
 
-In the next tutorial, we will discuss the different kinds of Component classes that can be made with Rocrastinate, and a good way of structuring components to isolate re-usable elements of your application.
+In the next tutorial, we will discuss the different kinds of Component classes that can be made with Rocrastinate, as well as a good way of structuring components in order to isolate re-usable elements of our application.
 
 ---
 

@@ -13,11 +13,11 @@ You can get the model [here](https://www.roblox.com/library/3120304060/Rocrastin
 # Tutorial
 1. Basic Concepts
     * [1.1 Introduction](docs/1-1-introduction.md)   
-    * [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
-    * [1.3 Component State Reduction](1-3-component-state-reduction.md)
-    * [1.4 Component Types](1-4-component-types.md)
-    * [1.5 Maid Revisited](1-5-maid-revisited.md)
-    * [1.6 Usage Examples](1-6-usage-examples.md)
+    * [1.2 Rocrastinate Store](docs/1-2-rocrastinate-store.md)
+    * [1.3 Component State Reduction](docs/1-3-component-state-reduction.md)
+    * [1.4 Component Types](docs/1-4-component-types.md)
+    * [1.5 Maid Revisited](docs/1-5-maid-revisited.md)
+    * [1.6 Usage Examples](docs/1-6-usage-examples.md)
 2. Advanced Concepts
     * [2.1 Middlewares](docs/2-1-middlewares.md)
     

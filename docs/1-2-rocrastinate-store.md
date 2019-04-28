@@ -183,7 +183,7 @@ return {
 Now that we've separated the concerns of our reducers and actions, how do we actually create the store and have it interact with our application?
 
 Rocrastinate uses the function `createStore(reducer, initialState)` for this.
-Putting it all together, we can create a very simple store reduces a single value of "coins"
+Putting it all together, we can create a very simple store that reduces a single value of "coins"
 
 ```lua
 -- Typically this would be put in a separate module called "actionTypes"

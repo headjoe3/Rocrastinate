@@ -1,4 +1,4 @@
-<div align="center"><img src="Logo.png"></div>
+<div align="center"><img src="LogoStudioBlue.png"></div>
 
 # Rocrastinate
 A React/Redux-like UI state management and view library optimized for Roblox game development

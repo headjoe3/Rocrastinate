@@ -4,6 +4,9 @@
 Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
 ## Motivation
+
+[tl;dr](#Creating)
+
 Roblox UI is not always easy to standardize. Making UI code that is simultaneously re-usable, decoupled, and well-performing on Roblox is ideal, but having all of these things at the same time can be challenging.
 
 Frameworks such as [Roact](https://github.com/Roblox/roact) by LPGhatguy (generally accompanied with [Rodux](https://github.com/Roblox/rodux)) have been created to parallel Facebook's [React](https://github.com/facebook/react) framework (generally accompanied with [Redux](https://redux.js.org/)).
@@ -34,6 +37,8 @@ and destroyed using
 ```lua
 myComponentObject:Destroy()
 ```
+
+If you are unfamiliar with object oriented programming in lua, I would highly recommend reading this tutorial:
 
 To make a Component class, you can use the following API
 ```lua

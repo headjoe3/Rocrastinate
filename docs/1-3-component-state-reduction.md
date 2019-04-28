@@ -33,7 +33,7 @@ local ptr_myTable = store.getState("myTable")
 print(myTable == ptr_myTable()) -- true
 ```
 
-Whereas `get()` doing more than directly returning the value in the store, the function `set()` also does more than just mutating the value in the store. When `store.setState()` is called, it keeps track of each key that was changed, and notifies any observers of the change.
+Whereas `get()` does more than directly returning the value in the store, the function `set()` also does more than just mutating the value in the store. When `store.setState()` is called, it keeps track of each key that was changed, and notifies any observers of the change.
 
 We can observe store changes using the `store.subscribe('path.to.key', callback)` function. Unlike `getState` and `setState`, the key path is denoted using the dot notation. Subscribing to the empty string `''` will observe all store changes.
 

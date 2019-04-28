@@ -10,5 +10,5 @@ Rocrastinate is designed to be a more appropriate fit for the Roblox environment
 # Installation
 You can get the model [here](https://www.roblox.com/library/3120304060/Rocrastinate), or clone this repo and sync it in using [Rojo](https://github.com/LPGhatguy/rojo)
 
-# Usage
-See: [Introduction](docs/1-1-introduction.md)
+# Tutorial
+Start here: [1.1 Introduction](docs/1-1-introduction.md)

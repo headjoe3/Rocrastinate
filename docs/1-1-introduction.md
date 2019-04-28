@@ -184,30 +184,7 @@ end
 
 `:GiveTask()` is a special function that takes in a number of destructible tasks. If the maid is given an Instance, then that instance will automatically be destroyed when the Component is destroyed. The maid can also handle custom tables with a `:Destroy()` function implemented (such as other Rocrastinate Components). `:GiveTask()` accepts multiple arguments, and adds each argument to the maid's task queuem which is automatically cleaned up when the component is destroyed.
 
-Here's the internal Rocrastinate code for handling maid tasks. Strings are interpreted as RenderStep key bindings, and functions are interpreted as code that needs to be run in a separate thread:
-
-```lua
-local function taskDestructor(task)
-    local taskType = typeof(task)
-    if taskType == "function" then
-        -- Callbacks
-        FastSpawn(task)
-    elseif taskType == "RBXScriptConnection" then
-        -- Connections
-        task:Disconnect()
-    elseif taskType == "string" then
-        -- Render step bindings
-        pcall(function()
-            game:GetService("RunService"):UnbindFromRenderStep(task)
-        end)
-    elseif taskType == "Instance" or (taskType == "table" and task.Destroy) then
-        -- Instances and custom objects with a :Destroy() method
-        task:Destroy()
-    else
-        warn("Unhandled maid task '" .. tostring(task) .. "' of type '" .. taskType .. "'", debug.traceback())
-    end
-end
-```
+For more information on Component Maids, see: [1.5 Maid Revisited](1-5-maid-revisited.md)
 
 ### Improving our Component class
 

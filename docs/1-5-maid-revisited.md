@@ -83,6 +83,7 @@ maid:CleanupAllTasks() -- This will destroy the Gui, the label, and the connecti
 
 In a similar way, all Rocrastinate Components have a property of being Maidable—meaning that `local myComponent = MyComponent.new()` should always return an object on which `myComponent:Destroy()` can be called without causing any memory leaks.
 
+
 The Maid object in Components has the following functions:
 
 * `self.maid:GiveTask(...tasks)` - Collects a task that can be destroyed when the component is destroyed
@@ -97,6 +98,31 @@ The following object types are considered maidable:
 * Rocrastinate Components and other tables with a `:Destroy()` method - These will be handled by calling the `:Destroy()` method
 * functions - These will be called when the maid cleans up this task
 * strings - These will be treated as RenderStep bindings (i.e. `game:GetService("RunService"):BindToRenderStep(someString)`)
+
+Here is the internal code used to handle maid tasks:
+
+```lua
+local function taskDestructor(task)
+    local taskType = typeof(task)
+    if taskType == "function" then
+        -- Callbacks
+        FastSpawn(task)
+    elseif taskType == "RBXScriptConnection" then
+        -- Connections
+        task:Disconnect()
+    elseif taskType == "string" then
+        -- Render step bindings
+        pcall(function()
+            game:GetService("RunService"):UnbindFromRenderStep(task)
+        end)
+    elseif taskType == "Instance" or (taskType == "table" and task.Destroy) then
+        -- Instances and custom objects with a :Destroy() method
+        task:Destroy()
+    else
+        warn("Unhandled maid task '" .. tostring(task) .. "' of type '" .. taskType .. "'", debug.traceback())
+    end
+end
+```
 
 If there are any other tasks or composite tasks that cannot be handled regularly, we can use maidable functions to handle our cleanup tasks for us:
 

@@ -72,13 +72,17 @@ function Component:constructor(store)
 	
 	-- Map reduction
 	local mappedStateKeys = {}
+	local mappedStrKeypaths = {}
 	local mappedKeypaths = {}
 	if self.Reduction then
 		for k, strKeypath in pairs(self.Reduction) do
 			mappedStateKeys[#mappedStateKeys + 1] = k
+			mappedStrKeypaths[#mappedStrKeypaths + 1] = strKeypath
 			mappedKeypaths[#mappedKeypaths + 1] = ParseKeypath(strKeypath)
 		end
 	end
+
+	local readOnlyCache = {}
 	
 	if useStore then
 		self.getReducedState = function()
@@ -86,8 +90,17 @@ function Component:constructor(store)
 			for i = 1, #mappedStateKeys do
 				local stateKey = mappedStateKeys[i]
 				local keypath = mappedKeypaths[i]
+				local strKeypath = mappedStrKeypaths[i]
 				
-				reducedState[stateKey] = store.getState(unpack(keypath))
+				-- See if we have a cached value
+				local cached = readOnlyCache[strKeypath]
+				if cached ~= nil then
+					reducedState[stateKey] = cached
+				else
+					local cached = store.getState(unpack(keypath))
+					reducedState[stateKey] = cached
+					readOnlyCache[strKeypath] = cached
+				end
 			end
 			return reducedState
 		end
@@ -116,7 +129,12 @@ function Component:constructor(store)
 	-- Subscribe to reduction
 	if useStore and self.Reduction then
 		for k, strKeypath in pairs(self.Reduction) do
-			self.maid:GiveTask(store.subscribe(strKeypath, self.queueRedraw))
+			self.maid:GiveTask(
+				store.subscribe(strKeypath, function()
+					readOnlyCache[strKeypath] = nil
+					self.queueRedraw()
+				end)
+			)
 		end
 	end
 end

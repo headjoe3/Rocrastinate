@@ -180,7 +180,7 @@ return {
 }
 ```
 
-Now that we've created and simplified our reducers and actions, how do we actually create the store and have it interact with our application?
+Now that we've separated the concerns of our reducers and actions, how do we actually create the store and have it interact with our application?
 
 Rocrastinate uses the function `createStore(reducer, initialState)` for this.
 Putting it all together, we can create a very simple store reduces a single value of "coins"

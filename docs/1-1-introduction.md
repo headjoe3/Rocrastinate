@@ -5,7 +5,7 @@ Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
 ## Motivation
 
-[tl;dr](#Creating)
+[TL;DR: This is just background; click here to dive into using Rocrastinate](#creating-your-first-component)
 
 Roblox UI is not always easy to standardize. Making UI code that is simultaneously re-usable, decoupled, and well-performing on Roblox is ideal, but having all of these things at the same time can be challenging.
 
@@ -305,6 +305,8 @@ end
 There is one other thing that will make the code simpler: UI Templates. Because Rocrastinate gives you full control over how your GUI elements are created, you can place a template inside of your component's module:
 
 ![example](introduction_coins_example3.png)
+
+## Final Code
 
 Here is the final code for the CoinsDisplay module:
 ```lua

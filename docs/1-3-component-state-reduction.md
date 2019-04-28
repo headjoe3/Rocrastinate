@@ -99,6 +99,8 @@ end
 
 We can get rid of `self.coins` now that the data is being pulled from our store. In fact, we can also get rid of the `CoinsDisplay:AddCoin()` method we defined earlier, and replace it with actions such as `ADD_COINS` from the last tutorial. Putting it all together:
 
+## Final Code
+
 ### game.ReplicatedStorage.CoinsDisplay ModuleScript
 ```lua
 local Rocrastinate = require(game.ReplicatedStorage.Rocrastinate)

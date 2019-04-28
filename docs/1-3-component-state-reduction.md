@@ -4,6 +4,8 @@ Next tutorial: [1.4 Component Types](1-4-component-types.md)
 
 Previous tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
+[Directory](../readme.md#tutorial)
+
 ## The Observer Pattern
 
 In order to understand how we can re-draw our components based on store updates, we must first look at the way in which the Rocrastinate Store propogates updates
@@ -173,3 +175,5 @@ In the next tutorial, we will discuss the different kinds of Component classes t
 Next tutorial: [1.4 Component Types](1-4-component-types.md)
 
 Previous tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
+
+[Directory](../readme.md#tutorial)

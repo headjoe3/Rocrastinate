@@ -3,6 +3,8 @@
 
 Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
 
+[Directory](../readme.md#tutorial)
+
 ## Motivation
 
 [TL;DR: This is just background; click here to dive into using Rocrastinate](#creating-your-first-component)
@@ -353,3 +355,5 @@ end
 ---
 
 Next tutorial: [1.2 Rocrastinate Store](1-2-rocrastinate-store.md)
+
+[Directory](../readme.md#tutorial)

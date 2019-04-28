@@ -4,6 +4,8 @@ Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
 Previous tutorial: [1.1 Introduction](1-1-introduction.md)
 
+[Directory](../readme.md#tutorial)
+
 ## Redux Similarities and Differences
 
 Rocrastinate's store is inspired by [Redux](https://redux.js.org/basics/basic-tutorial), a state management library that is often used in JavaScript web applications. If you are unfamiliar with how Redux works, I would recommend reading and/or following the Redux tutorial before moving on, although I will attempt to explain how Rocrastinate's store functions here.
@@ -224,3 +226,5 @@ In the next tutorial, we'll learn how to propogate changes in the Rocrastinate s
 Next tutorial: [1.3 Component State Reduction](1-3-component-state-reduction.md)
 
 Previous tutorial: [1.1 Introduction](1-1-introduction.md)
+
+[Directory](../readme.md#tutorial)

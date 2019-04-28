@@ -135,7 +135,7 @@ end
 ```
 Since the Text property was never set, it was left with the default value of all TextLabel objects: "Label"
 
-However, we still have one problem: the `gui` and `coinsLabel` objects are still parented to PlayerGui when `CoinsDisplay:Destroy()` is called. While we could define a destructor and remove them there:
+We also have one other problem: the `gui` and `coinsLabel` objects are still parented to PlayerGui when `CoinsDisplay:Destroy()` is called. While we could define a destructor and remove them there:
 
 ```lua
 function CoinsDisplay:Destroy() -- Note: Do not do this
@@ -161,9 +161,9 @@ end
 ```
 Seems like a lot of work, right? Now, if you want to add or remove elements from your UI Component, you have to also add or remove it from the Destructor. If you forget to do this, bad things can happen. Furthermore, what if components/Gui Objects are created during `MyApp:Redraw()` rather than `MyComponent:constructor()`? Now you have to use an if statement to conditionally check if the object even exists, and if it does, destroy it in the destructor.
 
-Rocrastinate utilizes the Maid pattern for Component destructors. The Maid pattern is a helper class for creating destructors, and has been used in many roblox projects but is rarely explained. Every Component is given a `maid` object. Finally, Rocrastinate will actually throw an error if you try to redefine `Component.new()` or `Component.Destroy()` on a Component class.
+Rocrastinate utilizes the Maid pattern for Component destructors. The Maid pattern is a helper class for creating destructors, and has been used in many roblox core scripts but is rarely explained. Every Component is given a `maid` object in place of a destructor. In fact, Rocrastinate will actually throw an error if you try to redefine `Component.Destroy()` and `Component.new()` on a Component class.
 
-Going back to the CoinsDisplay example, the `maid` object can be utilized in the constructor as follows
+Going back to the CoinsDisplay example, our `maid` object can be utilized in the constructor as follows
 ```lua
 function CoinsDisplay:constructor()
     self.coins = 0
@@ -220,7 +220,7 @@ end
 
 See how much cleaner the constructor is? Now, when we want to locate the portion of code that draws what is displayed to the user, we need only look at the `:Redraw()` function.
 
-Secondly, we do not need to keep track of our coinsLabel frame, as it is already parented to our Gui (not do we need to give it to the Component's maid for that matter)
+Secondly, we do not need to keep track of our coinsLabel frame, as it is already parented to our Gui (we also do not need to give it to the Component's maid for that matter)
 
 ```lua
 function CoinsDisplay:Redraw()
@@ -228,9 +228,10 @@ function CoinsDisplay:Redraw()
         self.gui = Instance.new("ScreenGui")
         self.maid:GiveTask( self.gui ) -- Only the gui needs to be given to the maid
 
-        local coinsLabel = Instance.new("TextLabel", self.gui)
+        local coinsLabel = Instance.new("TextLabel")
         coinsLabel.Name = "CoinsLabel"
         coinsLabel.Size = UDim2.new(0, 100, 0, 100)
+        coinsLabel.Parent = self.gui
 
         self.gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
     end
@@ -252,7 +253,7 @@ We deferred creation of our `self.gui` object until `:Redraw()` is called by Roc
 ```lua
 self.gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ```
-This `:WaitForChild()` is a yielding function. Yielding on a redraw means our code could be subject to race conditions. In general, you should avoid yielding within `:Redraw()` wherever possible.
+This `:WaitForChild()` is a yielding function. Yielding on a Redraw means our code could be subject to race conditions. In general, you should avoid yielding within `:Redraw()` wherever possible.
 
 Furthermore, it is not ideal to hardcode the parent in which our component's UI is placed. What if, for example, we wanted to nest a `CoinsDisplay` object inside of another menu? Let's define the parent in which we want to place the component as a parameter of the `CoinsDisplay` constructor:
 

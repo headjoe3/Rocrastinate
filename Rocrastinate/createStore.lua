@@ -61,8 +61,7 @@ local function createStore(reducer, initialState)
 		keypath[#keypath] = nil
 		
 		-- Mark each keypath that was visited
-		local visitedPaths = {}
-		local visitedPathValues = {''}
+		local visitedPaths = {''}
 		local lastVisitedPath = nil
 		for i = 1, #keypath do
 			local key = keypath[i]
@@ -84,7 +83,6 @@ local function createStore(reducer, initialState)
 			end
 			local key = keypath[i]
 			base = base[key]
-			visitedPathValues[#visitedPathValues + 1] = base
 		end
 		
 		if #keypath == 0 then
@@ -95,7 +93,6 @@ local function createStore(reducer, initialState)
 				error("Attempt to set non-table key")
 			end
 			base[lastKey] = value
-			visitedPathValues[#visitedPathValues + 1] = value
 		end
 		
 		-- Call subscribed listeners
@@ -108,7 +105,7 @@ local function createStore(reducer, initialState)
 				end
 				
 				for j = 1, #saveObservers do
-					FastSpawn(saveObservers[j], visitedPathValues[i])
+					FastSpawn(saveObservers[j])
 				end
 			end
 		end

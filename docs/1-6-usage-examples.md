@@ -20,6 +20,8 @@ Here is a small Todo List app built with Rocrastinate, made to mirror the struct
 Here is a plugin I wrote with Rocrastinate in order to test out the viability of the framework, and explore the workflow of creating a Rocrastinate application.
 To run the plugin, you can use Anaminus' [HotSwap Plugin](https://www.roblox.com/library/184216383/HotSwap-v1-1)
 
+[Icon Creator (Roblox Place File)](https://raw.github.com/headjoe3/Rocrastinate/master/examples/icon_creator.rbxl)
+
 ![Icon Creator Plugin](usage_examples_icon_creator.png)
 
 In both examples, the code is located in ReplicatedStorage, as well as a composite UI template can be found in StarterGui, which was used to design the UI in both applications.

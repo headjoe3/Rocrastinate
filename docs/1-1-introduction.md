@@ -18,7 +18,6 @@ These frameworks offer a declarative approach to UI by instantly rendering accur
 While these frameworks do their job well, Roact/Rodux has some particular disadvantages in the context of Roblox development:
 - Roact abstracts away important UI features, such as Tweening, or reading properties from rendered objects. This can get pretty hairy try doing certain simple things that are otherwise simple to do without Roact.
 - Roact does not allow you to design UI templates; all UI must be created by script. While I wrote a script to somewhat [automate this](https://pastebin.com/jW4k4Ze7) for roblox-ts, if you have non-programmer UI designers on your team, this barrier can become overly complex to deal with.
-- Rodux reconstructs the entire store model for every action that is dispatched. Lua tables are significantly slower to deal with than JavaScript objects.
 - Roact requires you to declaratively re-state every single property on every single rendered GUI object every time a component is updated. This can have negative performance implications, especially on UI that updates many times per frame.
 - Roact creates and destroys instances rapidly. There is no room for optimizations such as object pooling, which should otherwise be simple to implement outside of Roact.
 - Unless paired with [roblox-ts](https://roblox-ts.github.io/), the syntax for declaring Roact components can be rather verbose, whereas facebook's React uses JSX (an HTML-like syntax that makes things a lot more readable)

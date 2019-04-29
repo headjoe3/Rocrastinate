@@ -11,7 +11,7 @@ Previous tutorial: [1.5 Maid Revisited](1-5-maid-revisited.md)
 
 Here is a small Todo List app built with Rocrastinate, made to mirror the structure of the Todo List app built in the [Redux tutorial](https://redux.js.org/basics/example):
 
-[Todo List (Place File)](../examples/todos.rbxlx)
+[Todo List (Open the page and hit Ctrl+S to save as a place file)](raw.github.com/headjoe3/Rocrastinate/master/examples/todos.rbxlx)
 
 
 ---

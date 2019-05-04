@@ -1,18 +1,16 @@
-local FastSpawnerEvent = Instance.new("BindableEvent")
-FastSpawnerEvent.Event:Connect(function(callback, argsPointer)
-	callback(argsPointer())
-end)
-
-local function createPointer(...)
-	local args = { ... }
-	return function()
-		return unpack(args)
-	end
+local function FunctionWrapper(callback, ...)
+	coroutine.yield()
+	callback(...)
 end
 
-local function FastSpawn(func, ...)
-	assert(type(func) == "function", "Invalid arguments (function expected, got " .. typeof(func) .. ")")
-	FastSpawnerEvent:Fire(func, createPointer(...))
+local Bindable = Instance.new("BindableEvent")
+Bindable.Event:Connect(function(callback) callback() end)
+
+local function FastSpawn(callback, ...)
+	assert(type(callback) == "function", "Invalid arguments (function expected, got " .. typeof(callback) .. ")")
+	local func = coroutine.wrap(FunctionWrapper)
+	func(callback, ...)
+	Bindable:Fire(func)
 end
 
 return FastSpawn

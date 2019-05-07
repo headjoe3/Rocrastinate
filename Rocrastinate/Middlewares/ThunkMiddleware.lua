@@ -1,11 +1,11 @@
 local function ThunkMiddleware(store)
-	return function(nextMiddleware)
+	return function(nextDispatch)
 		return function(action)
 			if typeof(action) == "function" then
 				action(store.dispatch, store.getState)
 				return
 			end
-			nextMiddleware(action)
+			nextDispatch(action)
 		end
 	end
 end

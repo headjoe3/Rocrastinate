@@ -9,13 +9,13 @@
 local FastSpawn = require(script.Parent.Parent.Util.FastSpawn)
 
 local function SpunkMiddleware(store)
-	return function(nextMiddleware)
+	return function(nextDispatch)
 		return function(action)
 			if typeof(action) == "function" then
 				FastSpawn(action, store.dispatch, store.getState)
 				return
 			end
-			nextMiddleware(action)
+			nextDispatch(action)
 		end
 	end
 end

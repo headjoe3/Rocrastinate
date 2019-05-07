@@ -1,8 +1,8 @@
 local function LoggerMiddleware(store)
-	return function(nextMiddleware)
+	return function(nextDispatch)
 		return function(action)
 			print(action.type)
-			nextMiddleware(action)
+			nextDispatch(action)
 		end
 	end
 end

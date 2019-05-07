@@ -40,12 +40,12 @@ local function createInspectorMiddleware(options)
 	local maxDepth = options.maxDepth or 4
 	
 	return function(store)
-		return function(nextMiddleware)
+		return function(nextDispatch)
 			return function(action)
 				print('{')
 				inspect(action, 1, maxDepth + 1)
 				print('}')
-				nextMiddleware(action)
+				nextDispatch(action)
 			end
 		end
 	end

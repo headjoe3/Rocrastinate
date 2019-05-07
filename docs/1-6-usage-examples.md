@@ -1,7 +1,7 @@
 
 # 1.6 Usage Examples
 
-Next tutorial: [2.1 Middlewares](docs/2-1-middlewares.md)
+Next tutorial: [2.1 Middlewares](2-1-middlewares.md)
 
 Previous tutorial: [1.5 Maid Revisited](1-5-maid-revisited.md)
 
@@ -29,7 +29,7 @@ In both examples, the code is located in ReplicatedStorage, as well as a composi
 
 ---
 
-Next tutorial: [2.1 Middlewares](docs/2-1-middlewares.md)
+Next tutorial: [2.1 Middlewares](2-1-middlewares.md)
 
 Previous tutorial: [1.5 Maid Revisited](1-5-maid-revisited.md)
 

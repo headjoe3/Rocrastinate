@@ -55,10 +55,11 @@ local function createStore(reducer, initialState)
 	end
 	
 	function store.setState(...)
+		local last = select("#", ...) -- Nils should count in the tuple
 		local keypath = { voidSelf(store, ...) }
 		
-		local value = keypath[#keypath]
-		keypath[#keypath] = nil
+		local value = keypath[last]
+		keypath[last] = nil
 		
 		-- Mark each keypath that was visited
 		local visitedPaths = {''}

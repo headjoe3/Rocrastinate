@@ -8,20 +8,23 @@ local LOCK_IS_INVOKING = false
 FAST_SPAWN_BINDABLE.OnInvoke = FAST_SPAWN_CALLER
 
 local function FastSpawn(func: () -> (), ...: any)
+	local args = { ... }
 	if LOCK_IS_INVOKING then
 		local nestedCallFastSpawnBindable = Instance.new('BindableFunction')
 		nestedCallFastSpawnBindable.OnInvoke = FAST_SPAWN_CALLER
 		coroutine.resume(
-			coroutine.create(function()
+			coroutine.create(function(...)
 				nestedCallFastSpawnBindable:Invoke(func, ...)
-			end)
+			end),
+			...
 		)
 	else
 		LOCK_IS_INVOKING = true
 		coroutine.resume(
-			coroutine.create(function()
+			coroutine.create(function(...)
 				FAST_SPAWN_BINDABLE:Invoke(func, ...)
-			end)
+			end),
+			...
 		)
 		LOCK_IS_INVOKING = false
 	end

@@ -1,18 +1,30 @@
-local FastSpawnerEvent = Instance.new("BindableEvent")
-FastSpawnerEvent.Event:Connect(function(callback, argsPointer)
-	callback(argsPointer())
-end)
+--!strict
 
-local function createPointer(...)
-	local args = { ... }
-	return function()
-		return unpack(args)
+local FAST_SPAWN_BINDABLE = Instance.new('BindableFunction')
+local FAST_SPAWN_CALLER = function(cb: () -> (), ...)
+	cb(...)
+end :: any
+local LOCK_IS_INVOKING = false
+FAST_SPAWN_BINDABLE.OnInvoke = FAST_SPAWN_CALLER
+
+local function FastSpawn(func: () -> (), ...: any)
+	if LOCK_IS_INVOKING then
+		local nestedCallFastSpawnBindable = Instance.new('BindableFunction')
+		nestedCallFastSpawnBindable.OnInvoke = FAST_SPAWN_CALLER
+		coroutine.resume(
+			coroutine.create(function()
+				nestedCallFastSpawnBindable:Invoke(func, ...)
+			end)
+		)
+	else
+		LOCK_IS_INVOKING = true
+		coroutine.resume(
+			coroutine.create(function()
+				FAST_SPAWN_BINDABLE:Invoke(func, ...)
+			end)
+		)
+		LOCK_IS_INVOKING = false
 	end
-end
-
-local function FastSpawn(func, ...)
-	assert(type(func) == "function", "Invalid arguments (function expected, got " .. typeof(func) .. ")")
-	FastSpawnerEvent:Fire(func, createPointer(...))
 end
 
 return FastSpawn
